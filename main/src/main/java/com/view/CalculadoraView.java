@@ -1,31 +1,38 @@
 package view;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
-import com.controller.CalculadoraService;
+import controller.CalculadoraController;
 
 
 public class CalculadoraView extends Application {
-        private static final CalculadoraService calculadoraService = new CalculadoraService();
+        private static final CalculadoraController calculadoraController = new CalculadoraController();
 
         @Override
         public void start(Stage stage) throws IOException {
             String btnStringNumbers[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
             String btnStringOperators[] = {"+", "-", "*", "/"};
-            String btnStringOthers[] = {"C", "=", ".", "del"};
-            Button btnNumbers = new Button[10];
-            Button btnOperators = new Button[5];
-            Button btnOthers = new Button[5];
+            String btnStringOthers[] = {"CE", "=", ".", "DEL"};
+            Button[] btnNumbers = new Button[10];
+            Button[] btnOperators = new Button[5];
+            Button[] btnOthers = new Button[5];
 
             GridPane gridPane = new GridPane();
             BorderPane pane = new BorderPane();
             
+            calculadoraController.textField.setFill(javafx.scene.paint.Color.WHITE);
+            calculadoraController.textField.setFont(javafx.scene.text.Font.font("System", 20));
             //Creating a buttons for numbers and Operators
             btnNumbers = createGridButtonNumbers(10, btnStringNumbers, btnNumbers);
             btnOthers = createGridButtonOthersOperation(5, btnStringOthers, btnOthers);
@@ -33,7 +40,7 @@ public class CalculadoraView extends Application {
             
             //Creating a text field
             pane = createBorderPaneCalculadora();
-            gridPane = createGridPaneCalculadora(btnNumbers, btnOperators, btnOthers);
+            gridPane = createGridPaneCalculadora(btnNumbers, btnOperators, btnOthers, gridPane);
 
             pane.setCenter(gridPane);
             
@@ -51,70 +58,71 @@ public class CalculadoraView extends Application {
 
             borderPane.setPadding(new Insets(20, 0, 20, 20));
             
-            Hbox hbox = new HBox();
+            HBox hbox = new HBox();
             hbox.getChildren().addAll();
 
-            borderPaneTopBottom.setRight(textField);
-            borderPaneTopBottom.setBotton(hbox);
+            borderPaneTopBottom.setRight(calculadoraController.textField);
+            borderPaneTopBottom.setBottom(hbox);
             borderPane.setTop(borderPaneTopBottom);
             return borderPane;
         }
 
-        private static GridPane createGridPaneCalculadora(Button[] btnNumbers, Button[] btnOperators, Button[] btnOthers) {
+        private static GridPane createGridPaneCalculadora(Button[] btnNumbers, Button[] btnOperators, Button[] btnOthers, GridPane gridPane) {
             int i = 0;
             int j = 0;
             int count = 0;
 
-            gridPane.add(bntOthers[0], 0, 0);
-            gridPane.add(bntOthers[1], 1, 0);
+            gridPane.add(btnOthers[0], 0, 0);
+            gridPane.add(btnOthers[1], 1, 0);
             
             for(i = 0; i < 5; i++) {
-                gdpane.add(btnOperators[i], 3, i + 1   );
+                gridPane.add(btnOperators[i], 3, i + 1   );
             }
             
             for(i = 0, count = 7; i < 10; i++, count = count - 3) {
                 for(j = 0; j < 3; j++){
-                    gdpane.add(btnNumbers[i], 4, i + 1);
+                    gridPane.add(btnNumbers[i], 4, i + 1);
                 }
             }
             
-            gridPane.add(bntOthers[2], 0, 5);
-            gridPane.add(bntOthers[3], 2, 5);
+            gridPane.add(btnOthers[2], 0, 5);
+            gridPane.add(btnOthers[3], 2, 5);
 
             return gridPane;
         }
         
-        private static Button[] createGridButtonNumbers(nt length, String[] btnString, Button[] bnt){
+        private static Button[] createGridButtonNumbers(int length, String[] btnString, Button[] btn){
             for (int i = 0; i < length; i++) {
-                bnt[i] = new Button(btnString[i]);
-                bnt[i].setPrefSize(50, 50);
-                bnt[i].setStyle("-fx-background-color: #A9A9A9; -fx-text-fill: #FFFFFF;");
+                btn[i] = new Button(btnString[i]);
+                btn[i].setPrefSize(50, 50);
+                btn[i].setStyle("-fx-background-color: #A9A9A9; -fx-text-fill: #FFFFFF;");
             }
 
             return btn;
         }
 
-        private static Button[] createGridButtonOperation(int length, String[] btnString, Button[] bnt){
+        private static Button[] createGridButtonOperation(int length, String[] btnString, Button[] btn){
             for (int i = 0; i < length; i++) {
-                bnt[i] = new Button(btnString[i]);
-                bnt[i].setPrefSize(50, 50);
-                bnt[i].setStyle("-fx-background-color: #A9A9A9; -fx-text-fill: #FFFFFF;");
+                btn[i] = new Button(btnString[i]);
+                btn[i].setPrefSize(50, 50);
+                btn[i].setStyle("-fx-background-color: #A9A9A9; -fx-text-fill: #FFFFFF;");
             }
-            return bnt;
+            return btn;
         }
 
-        private static Button[] createGridButtonOthersOperation(int length, String[] btnStringOthers, Button[] bntOthers){
-            for (int i = 0; i < length; i++) {
+        private static Button[] createGridButtonOthersOperation(int length, String[] btnStringOthers, Button[] btnOthers){
+            int i = 0;
+            for (i = 0; i < length; i++) {
                 btnOthers[i] = new Button(btnStringOthers[i]);
                 btnOthers[i].setPrefSize(50, 50);
-                btnOthers[i].setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        calculardoraService.processarOutrosApertados(event);
+                String j = btnStringOthers[i];
+                btnOthers[i].setOnAction(
+                    (ActionEvent e) -> {
+                        calculadoraController.computar(j);
                     }
-                });
+                );
             }
-            return bnt;
+            return btnOthers;
         }
 
         

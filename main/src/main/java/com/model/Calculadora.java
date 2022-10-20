@@ -1,30 +1,31 @@
 package model;
 
+import java.lang.Double;
+import java.lang.Character;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Calculadora {
-    private double output;
-    private List<?> expressao;
-    private List<?> numeros;
+    private Double output;
+    private List<Character> expressao;
+    private List<Double> numeros;
 
-    Calculadora() {
-        this.expressao = new ArrayList<Integer>();
-        this.numeros = new ArrayList<Integer>();
+    public Calculadora() {
+        this.expressao = new ArrayList<Character>();
+        this.numeros = new ArrayList<Double>();
+        this.output = 0.0;
     }
 
-    public boolean setOuput(double output) {
+    public boolean setOuput(Double output) {
         try {
-            if(output != null) {
                 this.output = output;
                 return true;
-            }
         } catch (Exception e) {
             return false;
         }        
     }
 
-    public boolean addExpressao(char expressao) {
+    public boolean addExpressao(Character expressao) {
         try {
             if (expressao == '+' || expressao == '-' || expressao == '*' || expressao == '/') {
                 this.expressao.add(expressao);
@@ -39,8 +40,8 @@ public class Calculadora {
 
     public boolean addNumero(String numero) {
         try {
-            if (numero.matches("[0-9]+")) {
-                this.numeros.add(Integer.parseInt(numero));
+            if (numero.matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
+                this.numeros.add(Double.parseDouble(numero));
                 return true;
             } else {
                 return false;
@@ -50,7 +51,25 @@ public class Calculadora {
         } 
     }
 
-    public List<?> getExpressao() {
+    public boolean removeExpressao() {
+        try {
+            this.expressao.remove(this.expressao.size() - 1);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
+    }
+
+    public boolean removeNumero() {
+        try {
+            this.numeros.remove(this.numeros.size() - 1);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
+    }
+
+    public List<Character> getExpressao() {
         try {
             return this.expressao;
         } catch (Exception e) {
@@ -58,7 +77,7 @@ public class Calculadora {
         } 
     }
 
-    public List<?> getNumeros() {
+    public List<Double> getNumeros() {
         try {
             return this.numeros;
         } catch (Exception e) {
@@ -66,12 +85,11 @@ public class Calculadora {
         } 
     }
 
-    public double getOutput() {
+    public Double getOutput() {
         try {
             return this.output;
         } catch (Exception e) {
-            return null;
+            return 0.0;
         } 
     }
-
 }
