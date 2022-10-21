@@ -10,7 +10,7 @@ public class CalculadoraController {
     private CalculadoraController() {
     }
     public static void computar(String expressao) {
-        String search_caracter = "";
+        String searchCaracter = "";
         switch (expressao) {
             case "+":
             case "-":
@@ -26,10 +26,10 @@ public class CalculadoraController {
                 calc.getExpressao().clear();
                 break;
             case "DEL":
-                search_caracter =  textField.getText().split(" ")[textField.getText().split(" ").length - 1];
-                if (search_caracter.equals("+") || search_caracter.equals("-") || search_caracter.equals("*") || search_caracter.equals("/")) {
+                searchCaracter =  textField.getText().split(" ")[textField.getText().split(" ").length - 1];
+                if (searchCaracter.equals("+") || searchCaracter.equals("-") || searchCaracter.equals("*") || searchCaracter.equals("/")) {
                     calc.getExpressao().remove(calc.getExpressao().size() - 1);
-                } else if (search_caracter.matches("[0-9]+")) {
+                } else if (searchCaracter.matches("\\d+")) {
                     calc.getNumeros().remove(calc.getNumeros().size() - 1);
                 }
                 break;
@@ -45,30 +45,31 @@ public class CalculadoraController {
     }
 
     public static boolean processarNumerosApertados(String expressao) {
-        String new_expressao = textField.getText() + expressao;
-        textField.setText(new_expressao);
+        String newExpressao = textField.getText() + expressao;
+        textField.setText(newExpressao);
         calc.addNumero(expressao);
         return true;
     }
 
     public static boolean processarOperadoresApertados(String expressao) {
-        String new_expressao = textField.getText() + " " + expressao + "";
-        textField.setText(new_expressao);
+        String newExpressao = textField.getText() + " " + expressao + "";
+        textField.setText(newExpressao);
         calc.addExpressao((Character.valueOf(expressao.charAt(0))));
         return true;
     }
 
     public static void computar() {
         int i = 0;
+        Character[] symbolOp = {'+', '-', '*', '/'};
         Double resultado = calc.getNumeros().get(i);
         for (i = 1; i <= calc.getNumeros().size(); i++) {
-            if (calc.getExpressao().get(i - 1).equals("+")) {
+            if (calc.getExpressao().get(i - 1).equals(symbolOp[0])) {
                 resultado = calc.getNumeros().get(i) + calc.getNumeros().get(i + 1);
-            } else if (calc.getExpressao().get(i - 1).equals("-")) {
+            } else if (calc.getExpressao().get(i - 1).equals(symbolOp[1])) {
                 resultado = calc.getNumeros().get(i) - calc.getNumeros().get(i + 1);
-            } else if (calc.getExpressao().get(i - 1).equals("*")) {
+            } else if (calc.getExpressao().get(i - 1).equals(symbolOp[2])) {
                 resultado = calc.getNumeros().get(i) * calc.getNumeros().get(i + 1);
-            } else if (calc.getExpressao().get(i - 1).equals("/")) {
+            } else if (calc.getExpressao().get(i - 1).equals(symbolOp[3])) {
                 resultado = calc.getNumeros().get(i) / calc.getNumeros().get(i + 1);
             }
         }

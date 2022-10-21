@@ -1,7 +1,6 @@
 package br.com.calculadora_java.mvc.maven;
 
-import java.lang.Double;
-import java.lang.Character;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,18 +10,14 @@ public class Calculadora {
     private List<Double> numeros;
 
     public Calculadora() {
-        this.expressao = new ArrayList<Character>();
-        this.numeros = new ArrayList<Double>();
+        this.expressao = new ArrayList<>();
+        this.numeros = new ArrayList<>();
         this.output = 0.0;
     }
 
     public boolean setOuput(Double output) {
-        try {
-                this.output = output;
-                return true;
-        } catch (Exception e) {
-            return false;
-        }        
+            this.output = output;
+            return true;
     }
 
     public boolean addExpressao(Character expressao) {
@@ -40,7 +35,7 @@ public class Calculadora {
 
     public boolean addNumero(String numero) {
         try {
-            if (numero.matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
+            if (numero.matches("[+-]?(\\d+([.]\\d*)?|[.]\\d+)")) {
                 this.numeros.add(Double.parseDouble(numero));
                 return true;
             } else {
@@ -70,26 +65,14 @@ public class Calculadora {
     }
 
     public List<Character> getExpressao() {
-        try {
-            return this.expressao;
-        } catch (Exception e) {
-            return null;
-        } 
+        return this.expressao;
     }
 
     public List<Double> getNumeros() {
-        try {
-            return this.numeros;
-        } catch (Exception e) {
-            return null;
-        } 
+        return this.numeros; 
     }
 
     public Double getOutput() {
-        try {
-            return this.output;
-        } catch (Exception e) {
-            return 0.0;
-        } 
+        return this.output; 
     }
 }

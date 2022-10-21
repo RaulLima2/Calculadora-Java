@@ -112,9 +112,7 @@ public class CalculadoraView extends Application {
                 btnOthers[i].setPrefSize(50, 50);
                 String j = btnStringOthers[i];
                 btnOthers[i].setOnAction(
-                    (ActionEvent e) -> {
-                        CalculadoraController.computar(j);
-                    }
+                    (ActionEvent e) -> CalculadoraCont0roller.computar(j)
                 );
             }
             return btnOthers;
