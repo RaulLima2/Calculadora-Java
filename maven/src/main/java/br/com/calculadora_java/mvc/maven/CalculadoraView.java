@@ -17,26 +17,25 @@ import javafx.stage.Stage;
 public class CalculadoraView extends Application {
         @Override
         public void start(Stage stage) throws IOException {
-            String btnStringNumbers[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-            String btnStringOperators[] = {"+", "-", "*", "/"};
-            String btnStringOthers[] = {"CE", "=", ".", "DEL"};
+            String[] btnStringNumbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+            String[] btnStringOperators = {"+", "-", "*", "/"};
+            String[] btnStringOthers = {"CE", "=", ".", "DEL"};
             Button[] btnNumbers = new Button[10];
             Button[] btnOperators = new Button[5];
             Button[] btnOthers = new Button[5];
 
             GridPane gridPane = new GridPane();
-            BorderPane pane = new BorderPane();
             
             CalculadoraController.textField.setFill(javafx.scene.paint.Color.WHITE);
             CalculadoraController.textField.setFont(javafx.scene.text.Font.font("System", 20));
             //Creating a buttons for numbers and Operators
-            btnNumbers = createGridButtonNumbers(10, btnStringNumbers, btnNumbers);
-            btnOthers = createGridButtonOthersOperation(5, btnStringOthers, btnOthers);
-            btnOperators = createGridButtonOperation(5, btnStringOperators, btnOperators);
+            createGridButtonNumbers(10, btnStringNumbers, btnNumbers);
+            createGridButtonOthersOperation(5, btnStringOthers, btnOthers);
+            createGridButtonOperation(5, btnStringOperators, btnOperators);
             
             //Creating a text field
-            pane = createBorderPaneCalculadora();
-            gridPane = createGridPaneCalculadora(btnNumbers, btnOperators, btnOthers, gridPane);
+            BorderPane pane = createBorderPaneCalculadora();
+            createGridPaneCalculadora(btnNumbers, btnOperators, btnOthers, gridPane);
 
             pane.setCenter(gridPane);
             
@@ -121,7 +120,6 @@ public class CalculadoraView extends Application {
             return btnOthers;
         }
 
-        
     
         public static void main(String[] args) {
             launch(args);
