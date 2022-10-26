@@ -1,17 +1,19 @@
 package br.com.calculadora_java.mvc.maven;
 
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Calculadora {
     private Double output;
     private List<Character> expressao;
     private List<Double> numeros;
+    private List<Double> memoria;
 
     public Calculadora() {
         this.expressao = new ArrayList<>();
         this.numeros = new ArrayList<>();
+        this.memoria = new ArrayList<>();
         this.output = 0.0;
     }
 
@@ -46,6 +48,35 @@ public class Calculadora {
         } 
     }
 
+    public boolean addMemoria(Double memoria) {
+        try {
+            this.memoria.add(memoria);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
+    }
+
+    public boolean removeMemoria() {
+        try {
+            this.memoria.remove(this.memoria.size() - 1);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
+    }
+
+    public boolean cleanMemoria() {
+        try {
+            this.memoria.clear();
+            return true;
+        } catch (Exception e) {
+            return false;
+        } 
+    }
+
+    
+
     public boolean removeExpressao() {
         try {
             this.expressao.remove(this.expressao.size() - 1);
@@ -70,6 +101,10 @@ public class Calculadora {
 
     public List<Double> getNumeros() {
         return this.numeros; 
+    }
+
+    public List<Double> getMemoria() {
+        return this.memoria;
     }
 
     public Double getOutput() {
